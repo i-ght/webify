@@ -88,11 +88,11 @@ module Html =
             
             if set.Add(htmlFileName) then
                 let html = [
-                    """<div class="floor">"""
-                    """<div class="room">"""
-                    sprintf """<a class="blocklink" href="%s">%s</a>""" htmlFileName <| monthYear record.Date
-                    "</div>"
-                    "</div>"
+$"<div class=\"floor\">"
+                    $"<div class=\"room\">"
+                    $"<a class=\"blocklink\" href=\"{htmlFileName}\">{monthYear record.Date}</a>"
+                    $"</div>"
+                    $"</div>"
                 ]
 
                 addArray html htmlified
