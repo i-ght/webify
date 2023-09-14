@@ -5,7 +5,6 @@ open CsvHelper
 open System.Globalization
 open System.Collections.Generic
 open System.Text
-open System.Xml.Linq
 
 [<AutoOpen>]
 module Convenience =
@@ -76,32 +75,39 @@ module Html =
     let navCode (records: Record list) =
         let set = HashSet<string>()
         let sb = StringBuilder(8192)
+        let htmlified = ResizeArray<string list>(32)
 
         sb.Append("<div class=\"elevator\">")
         |> ignore<StringBuilder>
+
 
         for record in records do
             
             let htmlFileName = htmlFilename record.Date
             
+            
             if set.Add(htmlFileName) then
                 let html = [
                     """<div class="floor">"""
                     """<div class="room">"""
-                    sprintf """<a class="blocklink" href="%s">""" htmlFileName
-                    monthYear record.Date
-                    "</a>"
+                    sprintf """<a class="blocklink" href="%s">%s</a>""" htmlFileName <| monthYear record.Date
                     "</div>"
                     "</div>"
                 ]
 
-                for element in html do
-                    sb.AppendLine(element) |> ignore<StringBuilder>
+                addArray html htmlified
+
+        htmlified.Reverse()
+
+        for html in htmlified do
+            for element in html do
+                sb.AppendLine(element) |> ignore<StringBuilder>
+                
 
         sb.Append("</div>")
         |> ignore<StringBuilder>
 
-        XElement.Parse(sb.ToString()).ToString()
+        sb.ToString()
 
     let ofRecord (record: Record) =
 

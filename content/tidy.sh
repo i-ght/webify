@@ -1,4 +1,4 @@
 
 for file in *html; do
-    tidy -i -m $file
+    tidy --vertical-space no -i -m $file
 done
