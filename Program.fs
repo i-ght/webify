@@ -155,7 +155,7 @@ let head _argv =
     let records = loadRecords ()    
 
     let navHtml = Html.navCode records
-    let contentHtml = File.ReadAllText("content/codex.html")
+    let contentHtml = File.ReadAllText("content/codex")
 
     let content = Dictionary<string, ResizeArray<string>>()
     
